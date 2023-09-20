@@ -26,7 +26,7 @@ export class ToolbarComponent {
 
     if(localStorage.getItem("access_token") != null && localStorage.getItem("refresh_token") != null){
       this.keycloakService.Logout(access_token,refresh_token,username,password).subscribe({
-        next: data => {
+        next: () => {
           console.log("You've been logged out!");
         }
       })
