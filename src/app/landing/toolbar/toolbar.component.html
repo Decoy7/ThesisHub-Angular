@@ -1,0 +1,8 @@
+<mat-toolbar color="warn">
+  <span>ThesisHub</span>
+  <span id="spacer"></span>
+
+  <button mat-fab *ngIf="isLoggedIn" (click)="Logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
