@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -25,6 +25,24 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ThesisListComponent} from './thesis-list/thesis-list.component';
 import {RequestedThesisComponent} from './requested-thesis/requested-thesis.component';
 
+import {KeycloakAngularModule} from "keycloak-angular";
+import {KeycloakService} from "keycloak-angular";
+
+function initializeKeycloak(keycloak: KeycloakService) {
+  return () =>
+    keycloak.init({
+      config: {
+        realm: 'ThesisHub',
+        url: 'http://localhost:8080',
+        clientId: 'frontend'
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
+      }
+    });
+}
 
 @NgModule({
   declarations: [
@@ -41,6 +59,7 @@ import {RequestedThesisComponent} from './requested-thesis/requested-thesis.comp
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -48,13 +67,20 @@ import {RequestedThesisComponent} from './requested-thesis/requested-thesis.comp
     MatExpansionModule,
     MatTableModule,
     MatPaginatorModule,
-    HttpClientModule,
     MatInputModule,
     FormsModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    KeycloakAngularModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

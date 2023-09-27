@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {KeycloakService} from "../../services/KeycloakService";
-import {ToastrService} from "ngx-toastr";
-import {Router} from "@angular/router";
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-login',
@@ -12,42 +10,11 @@ export class LoginComponent {
   username?: string;
   password?: string;
 
-  constructor(private keycloakService: KeycloakService, private toast: ToastrService, private router: Router) {
+  constructor(private keycloakService: KeycloakService) {
   }
 
   Login() {
-    if (this.username != undefined && this.password != undefined) {
-      this.keycloakService.Login(this.username, this.password).subscribe({
-        next: data => {
-          localStorage.setItem("access_token", data.access_token);
-          localStorage.setItem("refresh_token", data.refresh_token);
-          localStorage.setItem("expires_in", data.expires_in);
-          localStorage.setItem("refresh_expires_in", data.refresh_expires_in);
-          localStorage.setItem("session_id", data.session_state);
-          localStorage.setItem("username", btoa(<string>this.username));
-          localStorage.setItem("password", btoa(<string>this.password));
-          localStorage.setItem("roles", (JSON.parse(atob(data.access_token.split('.')[1]))).resource_access.frontend.roles);
-          this.toast.success('Logged in successfully!', 'Login', {
-            progressBar: true,
-            positionClass: "toast-bottom-center",
-            closeButton: true
-          });
-          this.router.navigateByUrl("/landing");
-        },
-        error: () => {
-          this.toast.error('Credentials are wrong!', 'Error', {
-            progressBar: true,
-            positionClass: "toast-bottom-center",
-            closeButton: true
-          });
-        }
-      });
-    } else {
-      this.toast.error('Credentials are missing!', 'Error', {
-        progressBar: true,
-        positionClass: "toast-bottom-center",
-        closeButton: true
-      });
-    }
+      this.keycloakService.login();
   }
 }
+

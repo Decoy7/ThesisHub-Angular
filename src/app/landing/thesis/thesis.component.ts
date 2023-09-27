@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Thesis} from "../../../models/Thesis";
-import {User} from "../../../models/User";
+import {ThesisService} from "../../../services/thesis.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-thesis',
@@ -8,14 +9,35 @@ import {User} from "../../../models/User";
   styleUrls: ['./thesis.component.scss']
 })
 
-export class ThesisComponent {
-  displayedColumns: string[] = ['name', 'date', 'assigned'];
-  userMike = new User(1,2902,"Michael","Fotiadis","mfotiadis");
-  userSimos = new User(2,2912,"Simos","Spirou","sspirou");
-  dataSource = [
-    new Thesis("Web Dev FaceBook But For Dogs",new Date("09/14/2023"),this.userMike),
-    new Thesis("AnergosSoonTM",new Date("09/25/2023"),this.userSimos),
-
-  ];
-
+export class ThesisComponent implements OnInit{
+  public dataSource!: Thesis[];
+  constructor(private thesisService: ThesisService, private toast:ToastrService) {}
+  ngOnInit() {
+    this.thesisService.getAllThesis().subscribe({
+      next: data => {
+        this.dataSource = data;
+      },
+      error: () => {
+        this.toast.error('Error fetching data!', 'Error',{
+          progressBar:true,
+          positionClass:"toast-bottom-center",
+          closeButton:true
+        });
+      }
+    })
+  }
+  requestAssignment(thesisId:number){
+    this.thesisService.requestAssignment(thesisId).subscribe({
+      next:() =>{
+        console.log(thesisId);
+      },
+      error: () => {
+        this.toast.error('Error requesting assignment!', 'Error',{
+          progressBar:true,
+          positionClass:"toast-bottom-center",
+          closeButton:true
+        });
+      }
+    })
+  }
 }
