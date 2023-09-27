@@ -1,8 +1,21 @@
 <mat-toolbar color="warn">
-  <span>ThesisHub</span>
-  <span id="spacer"></span>
+  <span (click)="navigateBack()" id="title">ThesisHub</span>
 
-  <button mat-fab *ngIf="isLoggedIn" (click)="Logout()">
+  <span class="spacer"></span>
+
+  <button (click)="navigateToThesisList()" *ngIf="role.includes('Lecturer')" mat-fab matTooltip="Your Thesis List">
+    <mat-icon>book</mat-icon>
+  </button>
+
+  <button (click)="requestedThesisAssignments()" *ngIf="role.includes('Student')" mat-fab
+          matTooltip="Requested Assignments">
+    <mat-icon>school</mat-icon>
+  </button>
+
+  <span class="spacer"></span>
+
+  <button (click)="Logout()" *ngIf="isLoggedIn" mat-fab>
     <mat-icon>logout</mat-icon>
   </button>
+
 </mat-toolbar>
