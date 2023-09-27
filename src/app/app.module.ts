@@ -14,13 +14,16 @@ import {ThesisComponent} from './landing/thesis/thesis.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {KeycloakAngularModule} from "keycloak-angular";
 import {LoginComponent} from './login/login.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
-import { LandingComponent } from './landing/landing.component';
+import {LandingComponent} from './landing/landing.component';
+import {NotfoundComponent} from './notFound/notfound.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {ThesisListComponent} from './thesis-list/thesis-list.component';
+import {RequestedThesisComponent} from './requested-thesis/requested-thesis.component';
 
 
 @NgModule({
@@ -30,6 +33,9 @@ import { LandingComponent } from './landing/landing.component';
     ThesisComponent,
     LoginComponent,
     LandingComponent,
+    NotfoundComponent,
+    ThesisListComponent,
+    RequestedThesisComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,11 +48,11 @@ import { LandingComponent } from './landing/landing.component';
     MatExpansionModule,
     MatTableModule,
     MatPaginatorModule,
-    KeycloakAngularModule,
     HttpClientModule,
     MatInputModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
