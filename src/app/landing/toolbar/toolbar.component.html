@@ -3,18 +3,18 @@
 
   <span class="spacer"></span>
 
-  <button (click)="navigateToThesisList()" *ngIf="role.includes('Lecturer')" mat-fab matTooltip="Your Thesis List">
+  <button (click)="navigateToThesisList()" mat-fab matTooltip="Your Thesis List">
     <mat-icon>book</mat-icon>
   </button>
 
-  <button (click)="requestedThesisAssignments()" *ngIf="role.includes('Student')" mat-fab
+  <button (click)="requestedThesisAssignments()" mat-fab
           matTooltip="Requested Assignments">
     <mat-icon>school</mat-icon>
   </button>
 
   <span class="spacer"></span>
 
-  <button (click)="Logout()" *ngIf="isLoggedIn" mat-fab>
+  <button (click)="Logout()" mat-fab>
     <mat-icon>logout</mat-icon>
   </button>
 

@@ -9,14 +9,16 @@ import { KeycloakService } from 'keycloak-angular';
 })
 
 export class ToolbarComponent {
-  isLoggedIn: boolean = true;
-  role: string = localStorage.getItem("roles")!;
-
-  constructor(private keycloakService: KeycloakService, private router: Router) {
+  constructor(private readonly keycloak: KeycloakService, private router: Router) {
+    this.keycloak.getToken().then(token => {
+      localStorage.setItem("access_token",token);
+      console.log(token);
+    })
   }
 
   Logout() {
-    this.keycloakService.logout();
+    this.keycloak.logout();
+    localStorage.clear();
   }
 
   navigateToThesisList() {
